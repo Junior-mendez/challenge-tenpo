@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: challenge
+  data:
+    redis:
+      connect-timeout: 6000
+      #host: 127.0.0.1
+      host: redis-13268.c1.us-central1-2.gce.redns.redis-cloud.com
+      #port: 6379
+      port: 13268
+      username: default
+      password: Ov70KdUIufkjE5jsdK9OZjpN23Nthyoi
+
+  r2dbc:
+    pool:
+      enabled: true
+      initial:
+        size: 5
+      max-size: 10
+    url: r2dbc:postgresql://localhost:5432/demo
+    username: admin
+    password: admin
+resilience4j:
+  ratelimiter:
+    instances:
+      percent-controller:
+        limit-for-period: 3
+        limit-refresh-period: 1m
+        timeout-duration: 5s
+        register-health-indicator: true
+  circuitbreaker:
+    instances:
+      getPercentCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        slidingWindowType: COUNT_BASED
+        permittedNumberOfCallsInHalfOpenState: 2
+        minimumNumberOfCalls: 3
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+  #Retry mechanism configurations - A maximum of 3 requests will be retried with exponential difference in between their execution
+  retry:
+  instances:
+    getPercentRetry:
+      maxAttempts: 3
+      waitDuration: 2s
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: DEBUG
