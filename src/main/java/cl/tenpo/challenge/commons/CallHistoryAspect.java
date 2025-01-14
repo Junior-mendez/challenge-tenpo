@@ -39,7 +39,6 @@ public class CallHistoryAspect {
               })
           .doOnError(
               e -> {
-                log.error("error");
                 callHistoryOutputPort.save(buildCallHistory(e, joinPoint, targetClass)).subscribe();
               });
     }
