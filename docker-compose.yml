@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: demo
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+  app:
+    image: 'challenge:latest'
+    build:
+      context: .
+    container_name: app
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      DB_PASSWORD: admin
+      DB_URL: r2dbc:postgresql://postgres:5432/demo
+      DB_USERNAME: admin
+      PERCENT_CLIENT_URL: https://run.mocky.io/v3/49fafe67-91d2-4f16-8546-81113d082e83
+      REDIS_PERCENT_VALID: 30
+      REDIS_CACHE_KEY: percent
+      REDIS_HOST: redis-13268.c1.us-central1-2.gce.redns.redis-cloud.com
+      REDIS_PASSWORD: Ov70KdUIufkjE5jsdK9OZjpN23Nthyoi
+      REDIS_PORT: 13268
+      REDIS_USERNAME: default
+      SERVER_PORT: 8080

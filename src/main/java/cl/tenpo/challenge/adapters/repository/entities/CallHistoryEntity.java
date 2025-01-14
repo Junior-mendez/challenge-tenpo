@@ -10,12 +10,11 @@ import org.springframework.data.relational.core.mapping.Table;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CallHistory {
+public class CallHistoryEntity {
 
-    @Id
-    private int id;
-    private String date;
-    private String endpoint;
-    private String request;
-    private String response;
+  @Id private int id;
+  private String date;
+  private String endpoint;
+  private String request;
+  private String response;
 }

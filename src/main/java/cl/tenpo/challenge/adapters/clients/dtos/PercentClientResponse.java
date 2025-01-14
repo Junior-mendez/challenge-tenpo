@@ -8,5 +8,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PercentClientResponse {
-    private Integer percent;
+  private Integer percent;
 }

@@ -7,8 +7,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class PercentWebClientConfig {
 
-    @Bean("percentWebClient")
-    public WebClient percentClientConfig(){
-        return WebClient.builder().build();
-    }
+  @Bean("percentWebClient")
+  public WebClient percentClientConfig() {
+    return WebClient.builder().build();
+  }
 }

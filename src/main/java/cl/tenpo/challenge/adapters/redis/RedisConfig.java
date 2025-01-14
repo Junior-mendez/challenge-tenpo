@@ -15,27 +15,30 @@ import org.springframework.data.redis.serializer.*;
 @RequiredArgsConstructor
 public class RedisConfig {
 
-    private final SpringRedisConfig springRedisConfig;
+  private final SpringRedisConfig springRedisConfig;
 
-    @Bean
-    @Primary
-    public ReactiveRedisConnectionFactory reactiveRedisConnectionFactory(){
+  @Bean
+  @Primary
+  public ReactiveRedisConnectionFactory reactiveRedisConnectionFactory() {
 
-        return new LettuceConnectionFactory(this.springRedisConfig.redisStandaloneConfiguration());
-    }
+    return new LettuceConnectionFactory(this.springRedisConfig.redisStandaloneConfiguration());
+  }
 
-    @Bean
-    public ReactiveValueOperations<String, PercentageRedis> hashOperations(ReactiveRedisConnectionFactory factory) {
-        Jackson2JsonRedisSerializer<PercentageRedis> serializer =
-                new Jackson2JsonRedisSerializer<>(PercentageRedis.class);
-        RedisSerializationContext<String, PercentageRedis> context =
-                RedisSerializationContext.<String, PercentageRedis>newSerializationContext(
-                        new StringRedisSerializer())
-                        .key(new StringRedisSerializer())
-                        .value(serializer)
-                        .hashKey(new StringRedisSerializer())
-                        .hashValue(serializer).build();
-        ReactiveRedisTemplate<String, PercentageRedis> template = new ReactiveRedisTemplate<>(factory,context);
-        return template.opsForValue();
-    }
+  @Bean
+  public ReactiveValueOperations<String, PercentageRedis> hashOperations(
+      ReactiveRedisConnectionFactory factory) {
+    Jackson2JsonRedisSerializer<PercentageRedis> serializer =
+        new Jackson2JsonRedisSerializer<>(PercentageRedis.class);
+    RedisSerializationContext<String, PercentageRedis> context =
+        RedisSerializationContext.<String, PercentageRedis>newSerializationContext(
+                new StringRedisSerializer())
+            .key(new StringRedisSerializer())
+            .value(serializer)
+            .hashKey(new StringRedisSerializer())
+            .hashValue(serializer)
+            .build();
+    ReactiveRedisTemplate<String, PercentageRedis> template =
+        new ReactiveRedisTemplate<>(factory, context);
+    return template.opsForValue();
+  }
 }

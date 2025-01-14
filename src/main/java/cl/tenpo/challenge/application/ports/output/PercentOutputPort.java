@@ -1,9 +1,9 @@
 package cl.tenpo.challenge.application.ports.output;
 
-import cl.tenpo.challenge.adapters.clients.dtos.PercentClientResponse;
+import cl.tenpo.challenge.domain.models.Percent;
 import reactor.core.publisher.Mono;
 
 public interface PercentOutputPort {
 
-    Mono<PercentClientResponse> getPercent();
+  Mono<Percent> getPercent();
 }

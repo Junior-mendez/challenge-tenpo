@@ -1,8 +1,7 @@
 package cl.tenpo.challenge.adapters.redis;
 
-import lombok.*;
-
 import java.io.Serializable;
+import lombok.*;
 
 @Builder
 @Getter
@@ -12,7 +11,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class PercentageRedis implements Serializable {
 
-    private double percent;
+  private double percent;
 
-    private String date;
+  private String date;
 }

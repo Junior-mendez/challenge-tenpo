@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.7'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'jacoco'
+	id 'com.diffplug.spotless' version '7.0.1'
 }
 
 group = 'cl.tenpo'
@@ -32,10 +34,9 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly 'org.postgresql:r2dbc-postgresql'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
-	// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
 	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.18.2'
-// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
 	implementation 'org.apache.commons:commons-lang3:3.17.0'
 
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
@@ -45,11 +46,47 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.6.0'
+
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+spotless {
+	encoding 'UTF-8'
+	java{
+		removeUnusedImports()
+		toggleOffOn('formatter:off', 'formatter:on')
+		googleJavaFormat()
+	}
+}
+
+ext{
+	coverageExclusions=[
+			'**/domain/**.*',
+			'**/domain/**/**.*',
+			'**/commons/**.*',
+			'**/adapters/config/**.*',
+			'**/adapters/**/config/**.*',
+			'**/*Application.*',
+			'**/*Repository.*'
+	]
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports{
+		xml.required = true
+	}
+	afterEvaluate {
+		def jtrFiles = files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: coverageExclusions)
+		})
+		classDirectories.setFrom(jtrFiles)
 	}
 }
 

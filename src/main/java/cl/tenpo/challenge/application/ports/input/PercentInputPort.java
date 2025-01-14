@@ -6,5 +6,5 @@ import reactor.core.publisher.Mono;
 
 public interface PercentInputPort {
 
-    Mono<PercentResponse> calculatePercent (PercentRequest percentRequest);
+  Mono<PercentResponse> calculatePercent(PercentRequest percentRequest);
 }

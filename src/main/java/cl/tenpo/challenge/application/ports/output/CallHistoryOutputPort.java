@@ -1,12 +1,14 @@
 package cl.tenpo.challenge.application.ports.output;
 
-import cl.tenpo.challenge.adapters.repository.entities.CallHistory;
+import cl.tenpo.challenge.adapters.repository.entities.CallHistoryEntity;
+import cl.tenpo.challenge.domain.models.CallHistory;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import reactor.core.publisher.Mono;
 
 public interface CallHistoryOutputPort {
 
-    Mono<CallHistory> save(CallHistory callHistory);
+  Mono<Boolean> save(CallHistory callHistory);
 
-    Mono<Object> getAllCallsPaged(PageRequest pageRequest);
+  Mono<PageImpl<CallHistoryEntity>> getAllCallsPaged(PageRequest pageRequest);
 }

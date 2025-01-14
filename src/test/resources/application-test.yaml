@@ -1,33 +1,32 @@
 server:
-  port: ${SERVER_PORT}
+  port: 8080
 spring:
   webflux:
     base-path: /api
   application:
     name: challenge
-  jackson:
-    property-naming-strategy: SNAKE_CASE
   data:
     redis:
       connect-timeout: 6000
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
-      username: ${REDIS_USERNAME}
-      password: ${REDIS_PASSWORD}
+      host: localhost
+      port: 6379
+      username: test
+      password: test
+
   r2dbc:
     pool:
       enabled: true
       initial:
         size: 5
       max-size: 10
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: r2dbc:postgresql://localhost:5432/demo
+    username: admin
+    password: admin
 redis:
   cache:
-    key: ${REDIS_CACHE_KEY}
+    key: percent
     percent:
-      valid: ${REDIS_PERCENT_VALID}
+      valid: 30
 springdoc:
   swagger-ui:
     path: '/swagger-ui.html'
@@ -58,7 +57,7 @@ resilience4j:
       waitDuration: 2s
 
 percent:
-  url: ${PERCENT_CLIENT_URL}
+  url: http://localhost:8090
 logging:
   level:
     org:
