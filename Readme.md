@@ -1,29 +1,70 @@
-# Getting Started
+# API CHALLENGE
 
-### Reference Documentation
-For further reference, please consider the following sections:
+This API is the solution to the challenge proposed by Tenpo.
+It is based on the creation of two endpoints which will be detailed later.
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/3.3.7/gradle-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.3.7/gradle-plugin/packaging-oci-image.html)
-* [Spring Reactive Web](https://docs.spring.io/spring-boot/3.3.7/reference/web/reactive.html)
-* [Spring Data Reactive Redis](https://docs.spring.io/spring-boot/3.3.7/reference/data/nosql.html#data.nosql.redis)
-* [Resilience4J](https://docs.spring.io/spring-cloud-circuitbreaker/reference/spring-cloud-circuitbreaker-resilience4j.html)
-* [Spring Data R2DBC](https://docs.spring.io/spring-boot/3.3.7/reference/data/sql.html#data.sql.r2dbc)
+## Features
 
-### Guides
-The following guides illustrate how to use some features concretely:
+- Endpoint that receives two numbers and increases their sum by a percentage.
+- Endpoint to obtain calls to the previous endpoint with pagination.
 
-* [Building a Reactive RESTful Web Service](https://spring.io/guides/gs/reactive-rest-service/)
-* [Messaging with Redis](https://spring.io/guides/gs/messaging-redis/)
-* [Accessing data with R2DBC](https://spring.io/guides/gs/accessing-data-r2dbc/)
+## Stack
 
-### Additional Links
-These additional references should also help you:
+- Spring WebFlux
+- Postgres
+- Docker
+- OpenApi
+- Java 21
+- Resilience4j
+- Spring AOP
+- Redis
+- R2DBC
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
-* [R2DBC Homepage](https://r2dbc.io)
+## Challenge analysis
 
-## Missing R2DBC Driver
+![img.png](img.png)
 
-Make sure to include a [R2DBC Driver](https://r2dbc.io/drivers/) to connect to your database.
+# Run Api locally
+
+## Add environments values
+
+    DB_PASSWORD=admin;DB_URL=r2dbc:postgresql://localhost:5432/demo;DB_USERNAME=admin;PERCENT_CLIENT_URL=https://run.mocky.io/v3/49fafe67-91d2-4f16-8546-81113d082e83;REDIS_CACHE_KEY=percent;REDIS_HOST=redis-13268.c1.us-central1-2.gce.redns.redis-cloud.com;REDIS_PASSWORD=Ov70KdUIufkjE5jsdK9OZjpN23Nthyoi;REDIS_PERCENT_VALID=30;REDIS_PORT=13268;REDIS_USERNAME=default;SERVER_PORT=8080
+
+## Run the app
+
+    ./gradlew bootRun
+
+# Run Api with Docker
+
+## Build App
+
+    ./gradlew build
+
+* The application requires Postgres running on port 5432
+
+## Build image with Dockerfile
+
+    docker build -t challenge .
+
+## Run container with docker-compose
+
+    docker-compose up
+
+## Testing using swagger
+
+    http://localhost:8080/api/swagger-ui.html
+
+![img_1.png](img_1.png)
+
+## Test Endpoint Percent
+
+```json
+{
+  "first_number": 5,
+  "second_number": 5
+}
+```
+
+## Testing Call History
+
+To get the call history you can use the default values

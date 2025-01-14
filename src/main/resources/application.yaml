@@ -59,8 +59,3 @@ resilience4j:
 
 percent:
   url: ${PERCENT_CLIENT_URL}
-logging:
-  level:
-    org:
-      springframework:
-        r2dbc: DEBUG
